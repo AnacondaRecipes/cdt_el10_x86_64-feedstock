@@ -24,7 +24,6 @@ requirements:
   run:
     - sysroot_linux-64 2.39.*
     - libgcc-ng
-    - libxcrypt-el10-x86_64 >=4.4.36 *_{{ build_number }}
     - openssl 3  # libcrypto.so.3
     - xz
     - zlib

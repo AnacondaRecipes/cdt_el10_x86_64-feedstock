@@ -26,6 +26,7 @@ requirements:
     - cracklib-el10-x86_64 >=2.9.11 *_{{ build_number }}
     - cracklib-dicts-el10-x86_64 >=2.9.11 *_{{ build_number }}
     - pam-libs-el10-x86_64 >=1.6.1 *_{{ build_number }}
+    - pam-el10-x86_64 >=1.6.1 *_{{ build_number }}  # [with_pam]
 
 test:
   commands:

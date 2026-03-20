@@ -23,9 +23,7 @@ requirements:
   host:
   run:
     - sysroot_linux-64 2.39.*
-    - kmod-libs-el10-x86_64 ==31 *_{{ build_number }}
     - libgcc-ng
-    - libxcrypt-el10-x86_64 >=4.4.36 *_{{ build_number }}
     - openssl 3
     - xz
     - zlib

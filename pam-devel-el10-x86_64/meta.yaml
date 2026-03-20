@@ -18,8 +18,8 @@ build:
 requirements:
   host:
   run:
-    - sysroot_linux-64 2.39.*
     - pam-libs-el10-x86_64 >=1.6.1 *_{{ build_number }}
+    - pam-el10-x86_64 >=1.6.1 *_{{ build_number }}
 
 test:
   commands:
