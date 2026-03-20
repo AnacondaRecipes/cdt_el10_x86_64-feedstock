@@ -191,6 +191,9 @@ def recreate_about():
         if pkg_mo:
             am_devel = True
             lpkg = pkg_mo.group(1)
+            # gdbm-devel is not going to match gdbm-libs
+            if lpkg == "gdbm":
+                lpkg = "gdbm-libs"
 
         if not have_license_files:
             if am_devel:
