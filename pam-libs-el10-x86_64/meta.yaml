@@ -1,0 +1,51 @@
+package:
+  name: pam-libs-el10-x86_64
+  version: 1.6.1
+
+source:
+  - url: https://download.rockylinux.org/vault/rocky/10.0/BaseOS/x86_64/os/Packages/p/pam-libs-1.6.1-7.el10.x86_64.rpm
+    sha256: 2d9af0714e690a9c441dafe9710427b6e212ddfb614faf92cd9fb6273feeecbe
+    no_hoist: true
+    folder: binary
+
+build:
+  skip: True  # [not (linux and x86_64)]
+  number: {{ build_number }}
+  noarch: generic
+  binary_relocation: false
+  detect_binary_files_with_prefix: false
+  missing_dso_whitelist:
+    - '*'
+
+requirements:
+  build:
+    - sysroot_linux-64 2.39.*
+  host:
+  run:
+    - sysroot_linux-64 2.39.*
+    - audit-libs-el10-x86_64 >=4.0.3 *_{{ build_number }}
+    - libeconf-el10-x86_64 ==0.6.2 *_{{ build_number }}
+
+test:
+  commands:
+    - test -f ${PREFIX}/x86_64-conda_el10-linux-gnu/sysroot/usr/lib64/libpam.so.0
+
+about:
+  home: http://www.linux-pam.org/
+  license: BSD-3-Clause or GPL-2.0-only  # BSD-3-Clause AND GPL-2.0-or-later
+  license_family: GPL2
+  license_file:
+    - Copyright
+    - gpl-2.0.txt
+  summary: (CDT) Shared libraries of the PAM package
+  description: |
+    PAM (Pluggable Authentication Modules) is a system security tool that
+    allows system administrators to set authentication policy without
+    having to recompile programs that handle authentication. The pam-libs
+    contains the shared libraries for PAM.
+  doc_url: http://www.linux-pam.org/
+  dev_url: http://www.linux-pam.org/
+
+extra:
+  recipe-maintainers:
+    - conda-forge/help-cdts

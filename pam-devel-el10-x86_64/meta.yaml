@@ -1,0 +1,48 @@
+package:
+  name: pam-devel-el10-x86_64
+  version: 1.6.1
+
+source:
+  - url: https://download.rockylinux.org/vault/rocky/10.0/AppStream/x86_64/os/Packages/p/pam-devel-1.6.1-7.el10.x86_64.rpm
+    sha256: c33d735af9b0ab266e2af7a86c90958787c695d781a226b01d9bd2d14605c947
+    no_hoist: true
+    folder: binary
+
+build:
+  skip: True  # [not (linux and x86_64)]
+  number: {{ build_number }}
+  noarch: generic
+  binary_relocation: false
+  detect_binary_files_with_prefix: false
+
+requirements:
+  host:
+  run:
+    - sysroot_linux-64 2.39.*
+    - pam-libs-el10-x86_64 >=1.6.1 *_{{ build_number }}
+
+test:
+  commands:
+    - test -f ${PREFIX}/x86_64-conda_el10-linux-gnu/sysroot/usr/include/security/pam_client.h
+    - test -f ${PREFIX}/x86_64-conda_el10-linux-gnu/sysroot/usr/lib64/pkgconfig/pam.pc
+
+about:
+  home: http://www.linux-pam.org/
+  license: BSD-3-Clause or GPL-2.0-only  # BSD-3-Clause AND GPL-2.0-or-later
+  license_family: GPL2
+  license_file:
+    - gpl-2.0.txt
+    - Copyright
+  summary: (CDT) Files needed for developing PAM-aware applications and modules for PAM
+  description: |
+    PAM (Pluggable Authentication Modules) is a system security tool that
+    allows system administrators to set authentication policy without
+    having to recompile programs that handle authentication. This package
+    contains header files used for building both PAM-aware applications
+    and modules for use with the PAM system.
+  doc_url: http://www.linux-pam.org/
+  dev_url: http://www.linux-pam.org/
+
+extra:
+  recipe-maintainers:
+    - conda-forge/help-cdts

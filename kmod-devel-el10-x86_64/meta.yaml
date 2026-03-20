@@ -1,0 +1,49 @@
+package:
+  name: kmod-devel-el10-x86_64
+  version: 31
+
+source:
+  - url: https://download.rockylinux.org/vault/rocky/10.0/devel/x86_64/os/Packages/k/kmod-devel-31-11.el10.x86_64.rpm
+    sha256: 3d3f199f3e27be3e3d22c0b750cafd515a0b2bab6cf5c60d0fbd7f43431cbb4c
+    no_hoist: true
+    folder: binary
+
+build:
+  skip: True  # [not (linux and x86_64)]
+  number: {{ build_number }}
+  noarch: generic
+  binary_relocation: false
+  detect_binary_files_with_prefix: false
+
+requirements:
+  host:
+  run:
+    - sysroot_linux-64 2.39.*
+    - kmod-libs-el10-x86_64 ==31 *_{{ build_number }}
+    - libxcrypt-devel-el10-x86_64 >=4.4.36 *_{{ build_number }}
+
+test:
+  requires:
+    - pkg-config
+  commands:
+    - test -f ${PREFIX}/x86_64-conda_el10-linux-gnu/sysroot/usr/include/libkmod.h
+    - test -f ${PREFIX}/x86_64-conda_el10-linux-gnu/sysroot/usr/lib64/libkmod.so
+    - export PKG_CONFIG_PATH=${PREFIX}/x86_64-conda_el10-linux-gnu/sysroot/usr/lib64/pkgconfig
+    - pkg-config --cflags libkmod
+
+about:
+  home: https://git.kernel.org/pub/scm/utils/kernel/kmod/kmod.git
+  license: LGPL-2.1-only  # GPL-2.0-or-later AND GPL-3.0-or-later AND FSFUL AND FSFULLRWD AND LGPL-2.1-only AND LGPL-2.1-or-later AND X11
+  license_family: GPL2
+  license_file:
+    - COPYING
+  summary: (CDT) Header files for kmod development
+  description: |
+    The kmod-devel package provides header files used for development of
+    applications that wish to load or unload Linux kernel modules.
+  doc_url: https://git.kernel.org/pub/scm/utils/kernel/kmod/kmod.git
+  dev_url: https://git.kernel.org/pub/scm/utils/kernel/kmod/kmod.git
+
+extra:
+  recipe-maintainers:
+    - conda-forge/help-cdts

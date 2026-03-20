@@ -1,0 +1,58 @@
+package:
+  name: libsepol-el10-x86_64
+  version: 3.8
+
+source:
+  - url: https://download.rockylinux.org/vault/rocky/10.0/BaseOS/x86_64/os/Packages/l/libsepol-3.8-1.el10.x86_64.rpm
+    sha256: e6f588a8f24024ebe7ca696b9ac2afd0f2e3e5957ed4a9473d8b8bad6fd3d13a
+    no_hoist: true
+    folder: binary
+
+build:
+  skip: True  # [not (linux and x86_64)]
+  number: {{ build_number }}
+  noarch: generic
+  binary_relocation: false
+  detect_binary_files_with_prefix: false
+  missing_dso_whitelist:
+    - '*'
+
+requirements:
+  build:
+    - sysroot_linux-64 2.39.*
+  host:
+  run:
+    - sysroot_linux-64 2.39.*
+
+test:
+  commands:
+    - test -f ${PREFIX}/x86_64-conda_el10-linux-gnu/sysroot/usr/lib64/libsepol.so.2
+
+about:
+  home: https://github.com/SELinuxProject/selinux/wiki
+  license: LGPL-2.1-only  # LGPL-2.1-or-later
+  license_family: LGPL
+  license_file:
+    - LICENSE
+  summary: (CDT) SELinux binary policy manipulation library
+  description: |
+    Security-enhanced Linux is a feature of the Linux® kernel and a number
+    of utilities with enhanced security functionality designed to add
+    mandatory access controls to Linux.  The Security-enhanced Linux
+    kernel contains new architectural components originally developed to
+    improve the security of the Flask operating system. These
+    architectural components provide general support for the enforcement
+    of many kinds of mandatory access control policies, including those
+    based on the concepts of Type Enforcement®, Role-based Access
+    Control, and Multi-level Security.
+
+    libsepol provides an API for the manipulation of SELinux binary policies.
+    It is used by checkpolicy (the policy compiler) and similar tools, as well
+    as by programs like load_policy that need to perform specific transformations
+    on binary policies such as customizing policy boolean settings.
+  doc_url: https://github.com/SELinuxProject/selinux/wiki
+  dev_url: https://github.com/SELinuxProject/selinux/wiki
+
+extra:
+  recipe-maintainers:
+    - conda-forge/help-cdts

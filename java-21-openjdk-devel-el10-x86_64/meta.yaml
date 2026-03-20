@@ -1,0 +1,48 @@
+package:
+  name: java-21-openjdk-devel-el10-x86_64
+  version: 21.0.9.0.10
+
+source:
+  - url: https://download.rockylinux.org/vault/rocky/10.0/AppStream/x86_64/os/Packages/j/java-21-openjdk-devel-21.0.9.0.10-1.el10.x86_64.rpm
+    sha256: 4935ac2d8bc763cab9055a2568f87078a0717b4eea09b41038e6a7c06278696e
+    no_hoist: true
+    folder: binary
+
+build:
+  skip: True  # [not (linux and x86_64)]
+  number: {{ build_number }}
+  noarch: generic
+  missing_dso_whitelist:
+    - '*'
+
+requirements:
+  build:
+    - sysroot_linux-64 2.39.*
+  host:
+  run:
+    - sysroot_linux-64 2.39.*
+    - java-21-openjdk-el10-x86_64 ==21.0.9.0.10 *_{{ build_number }}
+
+test:
+  commands:
+    - test -f ${PREFIX}/x86_64-conda_el10-linux-gnu/sysroot/usr/lib/jvm/java-21-openjdk/include/jawt.h
+    - test -f ${PREFIX}/x86_64-conda_el10-linux-gnu/sysroot/usr/lib/jvm/java-21-openjdk/tapset/hotspot-21.0.9.0.10-1.el10.x86_64.stp
+
+# The nominal license is https://github.com/openjdk/jdk/blob/master/LICENSE
+about:
+  home: http://openjdk.java.net/
+  license: ASL 1.1 and ASL 2.0 and BSD and BSD with advertising and GPL+ and GPLv2 and GPLv2 with exceptions and IJG and LGPLv2+ and MIT and MPLv2.0 and Public Domain and W3C and zlib  # ASL 1.1 and ASL 2.0 and BSD and BSD with advertising and GPL+ and GPLv2 and GPLv2 with exceptions and IJG and LGPLv2+ and MIT and MPLv2.0 and Public Domain and W3C and zlib and ISC and FTL and RSA
+  license_family: Other
+  license_file:
+    - ASSEMBLY_EXCEPTION
+    - LICENSE
+    - THIRD_PARTY_README
+  summary: (CDT) OpenJDK 21 Development Environment
+  description: |
+    The OpenJDK 21 development tools.
+  doc_url: http://openjdk.java.net/
+  dev_url: http://openjdk.java.net/
+
+extra:
+  recipe-maintainers:
+    - conda-forge/help-cdts

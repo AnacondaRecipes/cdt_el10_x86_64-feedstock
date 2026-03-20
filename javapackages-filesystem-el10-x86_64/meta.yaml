@@ -1,0 +1,29 @@
+package:
+  name: javapackages-filesystem-el10-x86_64
+  version: 6.4.0
+
+source:
+  - url: https://download.rockylinux.org/vault/rocky/10.0/AppStream/x86_64/os/Packages/j/javapackages-filesystem-6.4.0-1.el10.noarch.rpm
+    sha256: 4f0b877e2cd9556920f589493998679afc392543f4272868dd0d6b9c903c1033
+    no_hoist: true
+    folder: binary
+
+build:
+  skip: True  # [not (linux and x86_64)]
+  number: {{ build_number }}
+  noarch: generic
+
+about:
+  home: https://github.com/fedora-java/javapackages
+  license: BSD-3-Clause
+  license_family: BSD
+  summary: (CDT) Java packages filesystem layout
+  description: |
+    This package provides some basic directories into which Java packages
+    install their content.
+  doc_url: https://github.com/fedora-java/javapackages
+  dev_url: https://github.com/fedora-java/javapackages
+
+extra:
+  recipe-maintainers:
+    - conda-forge/help-cdts
