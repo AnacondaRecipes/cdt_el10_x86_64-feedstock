@@ -19,7 +19,6 @@ requirements:
   build:
     - sysroot_linux-64 2.39.*
   host:
-    - javapackages-filesystem-el10-x86_64 >=6.4.0 *_{{ build_number }}
   run:
     - sysroot_linux-64 2.39.*
     - alsa-lib
