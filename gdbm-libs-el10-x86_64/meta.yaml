@@ -1,0 +1,45 @@
+package:
+  name: gdbm-libs-el10-x86_64
+  version: 1.23
+
+source:
+  - url: https://download.rockylinux.org/vault/rocky/10.0/BaseOS/x86_64/os/Packages/g/gdbm-libs-1.23-12.el10_0.x86_64.rpm
+    sha256: dd8595917419e7a169c7d50e62d81aa48c7f4e4175b20d306c9a139035474c7d
+    no_hoist: true
+    folder: binary
+
+build:
+  skip: True  # [not (linux and x86_64)]
+  number: {{ build_number }}
+  noarch: generic
+  binary_relocation: false
+  detect_binary_files_with_prefix: false
+  missing_dso_whitelist:
+    - '*'
+
+requirements:
+  build:
+    - sysroot_linux-64 2.39.*
+  host:
+  run:
+    - sysroot_linux-64 2.39.*
+
+test:
+  commands:
+    - test -f ${PREFIX}/x86_64-conda_el10-linux-gnu/sysroot/usr/lib64/libgdbm.so.6.0.0
+
+about:
+  home: http://www.gnu.org/software/gdbm/
+  license: BSD-3-Clause or GPL-2.0-only  # GPL-3.0-or-later
+  license_family: GPL2
+  license_file:
+    - COPYING
+  summary: (CDT) Libraries files for gdbm
+  description: |
+    Libraries for the Gdbm GNU database indexing library
+  doc_url: http://www.gnu.org/software/gdbm/
+  dev_url: http://www.gnu.org/software/gdbm/
+
+extra:
+  recipe-maintainers:
+    - conda-forge/help-cdts

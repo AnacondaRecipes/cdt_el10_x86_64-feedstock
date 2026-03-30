@@ -1,0 +1,52 @@
+package:
+  name: kmod-libs-el10-x86_64
+  version: 31
+
+source:
+  - url: https://download.rockylinux.org/vault/rocky/10.0/BaseOS/x86_64/os/Packages/k/kmod-libs-31-11.el10.x86_64.rpm
+    sha256: 6793a0608b39a83b3f3ff6cc0ac85bf5aeface91ddc42e55b31d89d7a2ca6faf
+    no_hoist: true
+    folder: binary
+
+build:
+  skip: True  # [not (linux and x86_64)]
+  number: {{ build_number }}
+  noarch: generic
+  binary_relocation: false
+  detect_binary_files_with_prefix: false
+  missing_dso_whitelist:
+    - '*'
+
+requirements:
+  build:
+    - sysroot_linux-64 2.39.*
+  host:
+  run:
+    - sysroot_linux-64 2.39.*
+    - libgcc-ng
+    - openssl 3  # libcrypto.so.3
+    - xz
+    - zlib
+    - zstd
+
+test:
+  commands:
+    - test -f ${PREFIX}/x86_64-conda_el10-linux-gnu/sysroot/usr/lib64/libkmod.so.2
+    - test -f ${PREFIX}/x86_64-conda_el10-linux-gnu/sysroot/usr/lib64/libkmod.so.2.4.1
+
+about:
+  home: https://git.kernel.org/pub/scm/utils/kernel/kmod/kmod.git
+  license: LGPL-2.1-only  # GPL-2.0-or-later AND GPL-3.0-or-later AND FSFUL AND FSFULLRWD AND LGPL-2.1-only AND LGPL-2.1-or-later AND X11
+  license_family: LGPL
+  license_file:
+    - COPYING
+  summary: (CDT) Libraries to handle kernel module loading and unloading
+  description: |
+    The kmod-libs package provides runtime libraries for any application that
+    wishes to load or unload Linux kernel modules from the running system.
+  doc_url: https://git.kernel.org/pub/scm/utils/kernel/kmod/kmod.git
+  dev_url: https://git.kernel.org/pub/scm/utils/kernel/kmod/kmod.git
+
+extra:
+  recipe-maintainers:
+    - conda-forge/help-cdts

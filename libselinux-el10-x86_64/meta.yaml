@@ -1,0 +1,59 @@
+package:
+  name: libselinux-el10-x86_64
+  version: 3.8
+
+source:
+  - url: https://download.rockylinux.org/vault/rocky/10.0/BaseOS/x86_64/os/Packages/l/libselinux-3.8-2.el10_0.x86_64.rpm
+    sha256: 56083c19eea568db02a4e100999a97a37a25995a86c7a6b19f8e5bf63ea59a17
+    no_hoist: true
+    folder: binary
+
+build:
+  skip: True  # [not (linux and x86_64)]
+  number: {{ build_number }}
+  noarch: generic
+  binary_relocation: false
+  detect_binary_files_with_prefix: false
+  missing_dso_whitelist:
+    - '*'
+
+requirements:
+  build:
+    - sysroot_linux-64 2.39.*
+  host:
+  run:
+    - sysroot_linux-64 2.39.*
+    - libsepol-el10-x86_64 >=3.8 *_{{ build_number }}
+    - pcre2
+
+test:
+  commands:
+    - test -f ${PREFIX}/x86_64-conda_el10-linux-gnu/sysroot/usr/lib64/libselinux.so.1
+
+about:
+  home: https://github.com/SELinuxProject/selinux/wiki
+  license: libselinux-1.0  # LicenseRef-Fedora-Public-Domain
+  license_family: Other
+  license_file:
+    - LICENSE
+  summary: (CDT) SELinux library and simple utilities
+  description: |
+    Security-enhanced Linux is a feature of the Linux® kernel and a number
+    of utilities with enhanced security functionality designed to add
+    mandatory access controls to Linux.  The Security-enhanced Linux
+    kernel contains new architectural components originally developed to
+    improve the security of the Flask operating system. These
+    architectural components provide general support for the enforcement
+    of many kinds of mandatory access control policies, including those
+    based on the concepts of Type Enforcement®, Role-based Access
+    Control, and Multi-level Security.
+
+    libselinux provides an API for SELinux applications to get and set
+    process and file security contexts and to obtain security policy
+    decisions.  Required for any applications that use the SELinux API.
+  doc_url: https://github.com/SELinuxProject/selinux/wiki
+  dev_url: https://github.com/SELinuxProject/selinux/wiki
+
+extra:
+  recipe-maintainers:
+    - conda-forge/help-cdts

@@ -1,0 +1,53 @@
+package:
+  name: libpwquality-el10-x86_64
+  version: 1.4.5
+
+source:
+  - url: https://download.rockylinux.org/vault/rocky/10.0/BaseOS/x86_64/os/Packages/l/libpwquality-1.4.5-12.el10.x86_64.rpm
+    sha256: 92590d1d78dab582eab87ce4d59a44de1a7f8d483345e6e7d820fc78d5981026
+    no_hoist: true
+    folder: binary
+
+build:
+  skip: True  # [not (linux and x86_64)]
+  number: {{ build_number }}
+  noarch: generic
+  binary_relocation: false
+  detect_binary_files_with_prefix: false
+  missing_dso_whitelist:
+    - '*'
+
+requirements:
+  build:
+    - sysroot_linux-64 2.39.*
+  host:
+  run:
+    - sysroot_linux-64 2.39.*
+    - cracklib-el10-x86_64 >=2.9.11 *_{{ build_number }}
+    - cracklib-dicts-el10-x86_64 >=2.9.11 *_{{ build_number }}
+    - pam-libs-el10-x86_64 >=1.6.1 *_{{ build_number }}
+    - pam-el10-x86_64 >=1.6.1 *_{{ build_number }}  # [with_pam]
+
+test:
+  commands:
+    - test -f ${PREFIX}/x86_64-conda_el10-linux-gnu/sysroot/usr/lib64/libpwquality.so.1
+    - test -f ${PREFIX}/x86_64-conda_el10-linux-gnu/sysroot/usr/lib64/libpwquality.so.1.0.2
+
+about:
+  home: https://github.com/libpwquality/libpwquality/
+  license: BSD-3-Clause or GPL-2.0-only  # BSD-3-Clause OR GPL-2.0-or-later
+  license_family: Other
+  license_file:
+    - COPYING
+  summary: (CDT) A library for password generation and password quality checking
+  description: |
+    This is a library for password quality checks and generation
+    of random passwords that pass the checks.
+    This library uses the cracklib and cracklib dictionaries
+    to perform some of the checks.
+  doc_url: https://github.com/libpwquality/libpwquality/
+  dev_url: https://github.com/libpwquality/libpwquality/
+
+extra:
+  recipe-maintainers:
+    - conda-forge/help-cdts

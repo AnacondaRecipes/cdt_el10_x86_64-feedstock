@@ -1,0 +1,47 @@
+package:
+  name: libsepol-devel-el10-x86_64
+  version: 3.8
+
+source:
+  - url: https://download.rockylinux.org/vault/rocky/10.0/AppStream/x86_64/os/Packages/l/libsepol-devel-3.8-1.el10.x86_64.rpm
+    sha256: e0a3421200fb4478bb07f2d3ba8f3156e1c15137fc42627dc3879f2917d77d4e
+    no_hoist: true
+    folder: binary
+
+build:
+  skip: True  # [not (linux and x86_64)]
+  number: {{ build_number }}
+  noarch: generic
+  binary_relocation: false
+  detect_binary_files_with_prefix: false
+
+requirements:
+  host:
+  run:
+    - libsepol-el10-x86_64 ==3.8 *_{{ build_number }}
+
+test:
+  requires:
+    - pkg-config
+  commands:
+    - test -f ${PREFIX}/x86_64-conda_el10-linux-gnu/sysroot/usr/include/sepol/sepol.h
+    - test -f ${PREFIX}/x86_64-conda_el10-linux-gnu/sysroot/usr/lib64/libsepol.so
+    - export PKG_CONFIG_PATH=${PREFIX}/x86_64-conda_el10-linux-gnu/sysroot/usr/lib64/pkgconfig
+    - pkg-config --cflags libsepol
+
+about:
+  home: https://github.com/SELinuxProject/selinux/wiki
+  license: LGPL-2.1-only  # LGPL-2.1-or-later
+  license_family: LGPL
+  license_file:
+    - LICENSE
+  summary: (CDT) Header files and libraries used to build policy manipulation tools
+  description: |
+    The libsepol-devel package contains the libraries and header files
+    needed for developing applications that manipulate binary policies.
+  doc_url: https://github.com/SELinuxProject/selinux/wiki
+  dev_url: https://github.com/SELinuxProject/selinux/wiki
+
+extra:
+  recipe-maintainers:
+    - conda-forge/help-cdts

@@ -1,0 +1,48 @@
+package:
+  name: libeconf-el10-x86_64
+  version: 0.6.2
+
+source:
+  - url: https://download.rockylinux.org/vault/rocky/10.0/BaseOS/x86_64/os/Packages/l/libeconf-0.6.2-4.el10.x86_64.rpm
+    sha256: dd89fefb1eee26bd47d89368c64e64392af79839beeee5ff1d85f8267491db4b
+    no_hoist: true
+    folder: binary
+
+build:
+  skip: True  # [not (linux and x86_64)]
+  number: {{ build_number }}
+  noarch: generic
+  binary_relocation: false
+  detect_binary_files_with_prefix: false
+  missing_dso_whitelist:
+    - '*'
+
+requirements:
+  build:
+    - sysroot_linux-64 2.39.*
+  host:
+  run:
+    - sysroot_linux-64 2.39.*
+
+test:
+  commands:
+    - test -f ${PREFIX}/x86_64-conda_el10-linux-gnu/sysroot/usr/lib64/libeconf.so.0
+    - test -f ${PREFIX}/x86_64-conda_el10-linux-gnu/sysroot/usr/lib64/libeconf.so.0.6.2
+
+about:
+  home: https://github.com/openSUSE/libeconf
+  license: MIT
+  license_family: MIT
+  license_file:
+    - LICENSE
+  summary: (CDT) Enhanced config file parser library
+  description: |
+    libeconf is a highly flexible and configurable library to parse and manage
+    key=value configuration files. It reads configuration file snippets from
+    different directories and builds the final configuration file from it.
+  doc_url: https://github.com/openSUSE/libeconf
+  dev_url: https://github.com/openSUSE/libeconf
+
+extra:
+  recipe-maintainers:
+    - conda-forge/help-cdts

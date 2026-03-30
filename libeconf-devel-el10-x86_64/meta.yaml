@@ -1,0 +1,42 @@
+package:
+  name: libeconf-devel-el10-x86_64
+  version: 0.6.2
+
+source:
+  - url: https://download.rockylinux.org/vault/rocky/10.0/devel/x86_64/os/Packages/l/libeconf-devel-0.6.2-4.el10.x86_64.rpm
+    sha256: 784e947f0ee471f598cf9da1b63dc390770ce96f65ac7cd6d8118b7f4125b7d8
+    no_hoist: true
+    folder: binary
+
+build:
+  skip: True  # [not (linux and x86_64)]
+  number: {{ build_number }}
+  noarch: generic
+  binary_relocation: false
+  detect_binary_files_with_prefix: false
+
+requirements:
+  host:
+  run:
+    - libeconf-el10-x86_64 ==0.6.2 *_{{ build_number }}
+
+test:
+  commands:
+    - test -f ${PREFIX}/x86_64-conda_el10-linux-gnu/sysroot/usr/lib64/libeconf.so
+
+about:
+  home: https://github.com/openSUSE/libeconf
+  license: MIT
+  license_family: MIT
+  license_file:
+    - LICENSE
+  summary: (CDT) Development files for libeconf
+  description: |
+    The libeconf-devel package contains libraries and header files for
+    developing applications that use libeconf.
+  doc_url: https://github.com/openSUSE/libeconf
+  dev_url: https://github.com/openSUSE/libeconf
+
+extra:
+  recipe-maintainers:
+    - conda-forge/help-cdts

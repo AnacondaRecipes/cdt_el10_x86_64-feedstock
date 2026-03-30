@@ -1,0 +1,51 @@
+package:
+  name: libselinux-devel-el10-x86_64
+  version: 3.8
+
+source:
+  - url: https://download.rockylinux.org/vault/rocky/10.0/AppStream/x86_64/os/Packages/l/libselinux-devel-3.8-2.el10_0.x86_64.rpm
+    sha256: fd50ad7f62ae3a6d259705e45d1d16430764ec4b38d228aceb2318e378a5a9e0
+    no_hoist: true
+    folder: binary
+
+build:
+  skip: True  # [not (linux and x86_64)]
+  number: {{ build_number }}
+  noarch: generic
+  binary_relocation: false
+  detect_binary_files_with_prefix: false
+
+requirements:
+  host:
+  run:
+    - sysroot_linux-64 2.39.*
+    - libselinux-el10-x86_64 ==3.8 *_{{ build_number }}
+    - libsepol-el10-x86_64 >=3.8 *_{{ build_number }}
+    - libsepol-devel-el10-x86_64 >=3.8 *_{{ build_number }}
+    - pcre2
+
+test:
+  requires:
+    - pkg-config
+  commands:
+    - test -f ${PREFIX}/x86_64-conda_el10-linux-gnu/sysroot/usr/include/selinux/selinux.h
+    - test -f ${PREFIX}/x86_64-conda_el10-linux-gnu/sysroot/usr/lib64/libselinux.so
+    - export PKG_CONFIG_PATH=${PREFIX}/x86_64-conda_el10-linux-gnu/sysroot/usr/lib64/pkgconfig
+    - pkg-config --cflags libselinux
+
+about:
+  home: https://github.com/SELinuxProject/selinux/wiki
+  license: libselinux-1.0  # LicenseRef-Fedora-Public-Domain
+  license_family: Other
+  license_file:
+    - LICENSE
+  summary: (CDT) Header files and libraries used to build SELinux
+  description: |
+    The libselinux-devel package contains the libraries and header files
+    needed for developing SELinux applications.
+  doc_url: https://github.com/SELinuxProject/selinux/wiki
+  dev_url: https://github.com/SELinuxProject/selinux/wiki
+
+extra:
+  recipe-maintainers:
+    - conda-forge/help-cdts

@@ -1,0 +1,53 @@
+package:
+  name: kmod-el10-x86_64
+  version: 31
+
+source:
+  - url: https://download.rockylinux.org/vault/rocky/10.0/BaseOS/x86_64/os/Packages/k/kmod-31-11.el10.x86_64.rpm
+    sha256: 4b78d6098c56901ec9da514cd3cb5d1febe623a05d02fbf596b123abb541e5c5
+    no_hoist: true
+    folder: binary
+
+build:
+  skip: True  # [not (linux and x86_64)]
+  number: {{ build_number }}
+  noarch: generic
+  binary_relocation: false
+  detect_binary_files_with_prefix: false
+  missing_dso_whitelist:
+    - '*'
+
+requirements:
+  build:
+    - sysroot_linux-64 2.39.*
+  host:
+  run:
+    - sysroot_linux-64 2.39.*
+    - libgcc-ng
+    - openssl 3
+    - xz
+    - zlib
+    - zstd
+
+test:
+  commands:
+    - test -f ${PREFIX}/x86_64-conda_el10-linux-gnu/sysroot/usr/sbin/modinfo
+
+about:
+  home: https://git.kernel.org/pub/scm/utils/kernel/kmod/kmod.git
+  license: LGPL-2.1-only  # GPL-2.0-or-later AND GPL-3.0-or-later AND FSFUL AND FSFULLRWD AND LGPL-2.1-only AND LGPL-2.1-or-later AND X11
+  license_family: GPL2
+  license_file:
+    - COPYING
+  summary: (CDT) Linux kernel module management utilities
+  description: |
+    The kmod package provides various programs needed for automatic
+    loading and unloading of modules under 2.6, 3.x, and later kernels, as well
+    as other module management programs. Device drivers and filesystems are two
+    examples of loaded and unloaded modules.
+  doc_url: https://git.kernel.org/pub/scm/utils/kernel/kmod/kmod.git
+  dev_url: https://git.kernel.org/pub/scm/utils/kernel/kmod/kmod.git
+
+extra:
+  recipe-maintainers:
+    - conda-forge/help-cdts

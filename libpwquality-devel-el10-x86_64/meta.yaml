@@ -1,0 +1,49 @@
+package:
+  name: libpwquality-devel-el10-x86_64
+  version: 1.4.5
+
+source:
+  - url: https://download.rockylinux.org/vault/rocky/10.0/devel/x86_64/os/Packages/l/libpwquality-devel-1.4.5-12.el10.x86_64.rpm
+    sha256: 07353fbc89b0dafc2b3a41cbe75665076cdaa77a25c8bc9a458121df724f349f
+    no_hoist: true
+    folder: binary
+
+build:
+  skip: True  # [not (linux and x86_64)]
+  number: {{ build_number }}
+  noarch: generic
+  binary_relocation: false
+  detect_binary_files_with_prefix: false
+
+requirements:
+  host:
+  run:
+    - libpwquality-el10-x86_64 ==1.4.5 *_{{ build_number }}
+    - pkgconfig
+
+test:
+  requires:
+    - pkg-config
+  commands:
+    - test -f ${PREFIX}/x86_64-conda_el10-linux-gnu/sysroot/usr/include/pwquality.h
+    - test -f ${PREFIX}/x86_64-conda_el10-linux-gnu/sysroot/usr/lib64/libpwquality.so
+    - export PKG_CONFIG_PATH=${PREFIX}/x86_64-conda_el10-linux-gnu/sysroot/usr/lib64/pkgconfig
+    - pkg-config --cflags pwquality
+
+about:
+  home: https://github.com/libpwquality/libpwquality/
+  license: BSD-3-Clause or GPL-2.0-only  # BSD-3-Clause OR GPL-2.0-or-later
+  license_family: Other
+  license_file:
+    - COPYING
+  summary: (CDT) Support for development of applications using the libpwquality library
+  description: |
+    Files needed for development of applications using the libpwquality
+    library.
+    See the pwquality.h header file for the API.
+  doc_url: https://github.com/libpwquality/libpwquality/
+  dev_url: https://github.com/libpwquality/libpwquality/
+
+extra:
+  recipe-maintainers:
+    - conda-forge/help-cdts

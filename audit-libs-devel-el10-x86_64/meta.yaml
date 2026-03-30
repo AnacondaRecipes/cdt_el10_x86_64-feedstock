@@ -1,0 +1,47 @@
+package:
+  name: audit-libs-devel-el10-x86_64
+  version: 4.0.3
+
+source:
+  - url: https://download.rockylinux.org/vault/rocky/10.0/AppStream/x86_64/os/Packages/a/audit-libs-devel-4.0.3-1.el10.x86_64.rpm
+    sha256: 9f8805642ddce17a6751dd84e1af7ad94f4592b7ae3c678bfef9b824116ae347
+    no_hoist: true
+    folder: binary
+
+build:
+  skip: True  # [not (linux and x86_64)]
+  number: {{ build_number }}
+  noarch: generic
+  binary_relocation: false
+  detect_binary_files_with_prefix: false
+
+requirements:
+  host:
+  run:
+    - sysroot_linux-64 2.39.*
+    - audit-libs-el10-x86_64 ==4.0.3 *_{{ build_number }}
+    - libcap-ng-devel-el10-x86_64 >=0.8.4 *_{{ build_number }}
+
+test:
+  commands:
+    - test -f ${PREFIX}/x86_64-conda_el10-linux-gnu/sysroot/usr/include/libaudit.h
+    - test -f ${PREFIX}/x86_64-conda_el10-linux-gnu/sysroot/usr/include/auparse.h
+    - test -f ${PREFIX}/x86_64-conda_el10-linux-gnu/sysroot/usr/lib64/libaudit.so
+    - test -f ${PREFIX}/x86_64-conda_el10-linux-gnu/sysroot/usr/lib64/libauparse.so
+
+about:
+  home: https://github.com/linux-audit/audit-userspace/
+  license: LGPL-2.1-only  # LGPL-2.0-or-later
+  license_family: LGPL
+  license_file:
+    - lgpl-2.1.txt
+  summary: (CDT) Header files for libaudit
+  description: |
+    The audit-libs-devel package contains the header files needed for
+    developing applications that need to use the audit framework libraries.
+  doc_url: https://github.com/linux-audit/audit-userspace/
+  dev_url: https://github.com/linux-audit/audit-userspace/
+
+extra:
+  recipe-maintainers:
+    - conda-forge/help-cdts

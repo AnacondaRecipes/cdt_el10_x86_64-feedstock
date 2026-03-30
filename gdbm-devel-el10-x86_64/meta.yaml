@@ -1,0 +1,51 @@
+package:
+  name: gdbm-devel-el10-x86_64
+  version: 1.23
+
+source:
+  - url: https://download.rockylinux.org/vault/rocky/10.0/devel/x86_64/os/Packages/g/gdbm-devel-1.23-12.el10_0.x86_64.rpm
+    sha256: da7ee4af8ca22f5c35f9e72b84fa60e919aec8244eed4884bf519c3b371bd8f3
+    no_hoist: true
+    folder: binary
+
+build:
+  skip: True  # [not (linux and x86_64)]
+  number: {{ build_number }}
+  noarch: generic
+  binary_relocation: false
+  detect_binary_files_with_prefix: false
+  missing_dso_whitelist:
+    - '*'
+
+requirements:
+  build:
+    - sysroot_linux-64 2.39.*
+  host:
+  run:
+    - sysroot_linux-64 2.39.*
+    - gdbm-libs-el10-x86_64 >=1.23 *_{{ build_number }}
+
+test:
+  commands:
+    - test -f ${PREFIX}/x86_64-conda_el10-linux-gnu/sysroot/usr/include/gdbm.h
+
+about:
+  home: http://www.gnu.org/software/gdbm/
+  license: BSD-3-Clause or GPL-2.0-only  # GPL-3.0-or-later
+  license_family: GPL2
+  license_file:
+    - COPYING
+  summary: (CDT) Development libraries and header files for the gdbm library
+  description: |
+    Gdbm-devel contains the development libraries and header files for
+    gdbm, the GNU database system.  These libraries and header files are
+    necessary if you plan to do development using the gdbm database.
+
+    Install gdbm-devel if you are developing C programs which will use the
+    gdbm database library.  You'll also need to install the gdbm package.
+  doc_url: http://www.gnu.org/software/gdbm/
+  dev_url: http://www.gnu.org/software/gdbm/
+
+extra:
+  recipe-maintainers:
+    - conda-forge/help-cdts
